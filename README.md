@@ -1,1 +1,0 @@
-accommodation_announcements_documentation
