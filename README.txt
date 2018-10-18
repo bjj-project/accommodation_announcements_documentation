@@ -8,3 +8,4 @@ root/
 		image_2.jpg
 		diagram_1.xxx
 		...
+new branch "bartekd"
