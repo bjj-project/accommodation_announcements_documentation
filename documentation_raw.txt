@@ -1,0 +1,172 @@
+1. Wprowadzenie
+	1.1. Cel dokumentu
+		Niniejszy dokument prezentuje wymagania dotyczące oprogramowania, czyli opisuje funkcjonalność budowanego oprogramowania i warunki, jakie musi ono spełnić. Dokument ten został stworzony z myślą o potencjalnych użytkownikach, projektantach, programistach, testerach oraz autorach dokumentacji użytkowej.
+
+	1.2. Zakres produktu
+		System wystawienia/rezerwacji apartamentów powstał na potrzeby projektu zespołowego. Głównym celem wdrożenia nowej platformy jest umożliwienie wystawienia oraz rezerwacji apartamentów. 
+
+	1.3. Definicje, akronimy, skróty
+		* Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będą zalogowanym 
+	
+		* Klient - jest to osoba rejestrująca się w systemie mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
+
+		* Administrator systemu - jest to osoba posiadająca uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta.
+
+		* Usługa sieciowa (WebService) - jest to aplikacja sieciowa zaprojektowana w celu umożliwienia rejestracji, logowania, zarządzania kontami, zarządzania apartamentami przy pomocy innego oprogramowania, które jest w stanie korzystać z usługi sieciowej.      
+
+		* Strona WWW - medium komunikacyjne między klientem a usługą sieciową. Prezentuje wyniki pracy usługi sieciowej w przejrzysty i wygodny sposób dla klienta.
+
+	1.4. Omówienie dokumentu
+		Rozdział pierwszy niniejszego dokumentu zawiera wstępne informacje dotyczące produktu oraz informacje ułatwiające poruszanie się po dokumencie, takie jak:
+			* omówienie celu dokumentu
+			* znaczenie używanych skrótów
+		W rozdziale drugim omówiono ogólnie projekt wraz z krótką charakterystyką użytkowników i funkcjonalności, jakie będzie im udostępniał budowany system. 
+		Rozdział trzeci jest poświęcony szczegółowemu opisowi wymagań funkcjonalnych, które zostały podzielone na grupy według funkcji systemu. 
+		W rozdziale czwartym zostały omówione wymagania poza funkcjonalne, które uzupełniają wymagania z rozdziału trzeciego. 
+
+2. Ogólny opis produktu
+	2.1. Kontekst funkcjonowania system
+		Diagramy przepływu danych służą do przedstawienia, w jaki sposób odbywa się przepływ i przetwarzanie danych w systemie. Poniższa tabelka przedstawia podstawowe elementy diagramów DFD.
+		
+	//Tabela 2.1. Oznaczenia elementów diagramów DFD 
+	Oznaczenie graficzne | Nazwa elementu  | Opis
+	---------------------+-----------------+-------
+	prostokąt			 | Terminator      | ----
+	Kółko			     | Proces          | ----
+	Strzałka             | Przepływ danych | ----
+
+		Pierwszym, najbardziej ogólnym diagramem DFD jest diagram kontekstowy, który przedstawia ogólnikowo podstawowe przepływy przetwarzania informacji w systemie wystawiania/rezerwacji apartamentów. W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
+	
+	//Tabela 2.2. Podstawowe elementy diagramu kontekstowego
+	Nazwa elementu | Typ elementu | Opis
+	---------------+--------------+----------------------------------
+	Gość		   | Terminator	  | Przegląda oferty
+	Klient		   | Terminator	  | Wprowadza apartament do systemu, rezerwuje apartament widniejący w systemie, przegląda oferty
+	Administrator  | Terminator	  | Zarządza platformą, aktualizuje dane pojazdów w bazie
+	wystawiania/   |              |                                                                        
+	rezerwacji     | Proces       | Przyjmuje, przetwarza i zwraca wynik zapytania klienta i administratora     
+	apartamentów   |              |                                                     
+TODO: dopisać przepływy danych...
+[diagram_dfd_kontekst.png]
+	//Rysunek 2.1. Kontekstowy diagram DFD
+	
+	2.2. Charakterystyka użytkowników
+		* Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będąca zalogowanym. Nie posiada żadnych uprawnień. Może jedynie przeglądać i wyszukiwać oferty.     
+		
+		* Klient - jest to osoba rejestrująca się w systemie z najniższymi uprawnieniami, mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert noclegowych, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
+
+		* Administrator - jest to osoba posiadająca najwyższe uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta. 
+		
+	2.3. Główne funkcje systemu
+		Gość w kontekście systemu może:
+			* Przeglądać oferty
+	
+		Klient w kontekście systemu może:
+			* Rejestrować, logować, wylogować się i zmieniać swoje personalia
+			* Przeglądać oferty
+			* Dokonywać i zarządzać rezerwacjami określonych apartamentów na określony czas
+			* Wystawiać i zarządzać własnymi apartamentami na wynajem na określony czas i cenę
+			* Dokonywać transakcji wystawienia i/lub wynajem apartamentu
+			
+		Administrator w kontekście systemu może:
+			* Tworzyć konta z dowolnymi dostępnymi uprawnieniami i zarządzać wszystkimi kontami
+			* Zmieniać cenę wystawienia apartamentu
+			* Autoryzować konta nowo utworzonych klientów
+			* Usuwać i zarządzać ogłoszeniami
+			* Przeglądać oferty
+
+	2.4. Ograniczenia
+		* Dane osobowe muszą być zabezpieczone zgodnie z ustawą o ochronie danych osobowych z Dz.U.1997 Nr 133 poz. 883.
+		* Regulamin serwisu.
+		
+	2.5. Założenia i zależności
+		* Prezentowane wymagania dotyczą stanu prawnego na dzień 31.07.2018r.
+		
+3. Wymagania funkcjonalne 
+	3.1. Diagramy DFD 
+		DFD obrazuje za pomocą przepływów kierunek przepływu danych pomiędzy funkcjami, magazynami i obiektami zewnętrznymi. DFD mogą być prezentowane na różnych stopniach szczegółowości lit[1] -> https://pl.wikipedia.org/wiki/Diagram_przep%C5%82ywu_danych
+		3.1.1. Diagram poziomu zerowego
+			Drugim diagramem DFD jest diagram poziomu zerowego. Ukazuje szczegółowe przepływy przetwarzania informacji. W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
+		//Tabela 3.1. Elementy diagramu poziomu zerowego
+		Nazwa elementu | Typ elementu | Opis
+		---------------+--------------+----------------------------------
+[diagram_dfd_poziom_zerowy.png]
+		//Rysunek 3.1. Diagram poziomu zerowego
+TODO: najpierw zrobić diagram poziomu zerowego...
+	
+		3.1.2 Diagram DFD przeglądania ofert, rejestracji i logowania/wylogowania
+		//Tabela 3.2. Elementy diagramu
+		Nazwa elementu | Typ elementu | Opis
+		---------------+--------------+----------------------------------
+[diagram_dfd_przegladanie_ofert_rejestracja_logowanie.png]
+		//Rysunek 3.2. Diagram DFD przeglądania ofert, rejestracji i logowania/wylogowania
+TODO: najpierw zrobić diagram poziomu zerowego...
+	
+		3.1.3 Diagram DFD przeglądania ofert i rezerwacja apartamentu przez klienta
+		//Tabela 3.3. Elementy diagramu
+		Nazwa elementu | Typ elementu | Opis
+		---------------+--------------+----------------------------------
+[diagram_dfd_przegladanie_ofert_rezerwacja.png]
+		//Rysunek 3.3. Diagram DFD przeglądania ofert i rezerwacja apartamentu przez klienta
+TODO: najpierw zrobić diagram poziomu zerowego...
+	
+	3.2. Funkcje systemu
+TODO: diagram hierarchii funkcji (FHD)
+[diagram_fhd.png]
+		//Rysunek 3.4. Diagram hierarchii funkcji
+TODO: lista funkcji i opis 
+	//Tabela 3.4. Funkcje systemu i ich opisy
+	Nazwa funkcji | Opis
+	--------------+----------------------------------
+	
+	3.3. Przypadki użycia
+		Przypadek użycia przedstawia interakcję pomiędzy aktorem (użytkownikiem systemu), który inicjuje zdarzenie oraz samym systemem jako sekwencję prostych kroków. lit[2] -> https://pl.wikipedia.org/wiki/Przypadek_u%C5%BCycia
+		
+		3.3.1. Rezerwacja apartamentu
+TODO: diagram UCD rezerwacja apartamentu
+[diagram_ucd_rezerwacja_apartamentu.png]
+			//Rysunek 3.5. Diagram UCD rezerwacja apartamentu
+		3.3.2. Wstawianie apartamentu przez klienta na określony czas
+TODO: diagram UCD wstawianie apartamentu
+[diagram_ucd_wstawianie_apartamentu.png]
+			//Rysunek 3.6. Diagram UCD wstawianie apartamentu przez klienta
+			
+	3.4. Diagram ERD
+		Diagram związków encji lub Diagram ERD (od ang. Entity-Relationship Diagram) – rodzaj graficznego przedstawienia związków pomiędzy encjami używany w projektowaniu systemów informacyjnych do zademonstrowania konceptualnych modeli danych używanych w systemie. lit[3] -> https://pl.wikipedia.org/wiki/Diagram_zwi%C4%85zk%C3%B3w_encji
+		
+TODO: diagram ERD
+[diagram_erd.png]
+		//Rysunek 3.7. Diagram ERD
+		
+	3.5. Diagram architektury systemu wysokiego poziomu
+		Istotnym elementem modelowania (a potem projektowania) jest stworzenie całościowej architektury kompletnego systemu. Taka architektura „wysokiego poziomu” przedstawia najczęściej system w postaci zestawu wzajemnie komunikujących się (oddziałujących) podsystemów. lit[4] -> http://zasoby.open.agh.edu.pl/~10sdczerner/page/architektura_systemu.html
+		
+TODO: diagram architektura systemu
+[diagram_architektura_systemu.png]
+		//Rysunek 3.8. Diagram Architektura systemu
+		
+	3.5.1. Opis
+TODO: Opis
+
+	3.5.2. Uzasadnienie
+TODO: Uzasadnienie
+
+4. Wymagania poza funkcjonalne
+		//Tabela 4.1. Wymagania poza funkcjonalne
+	Wymaganie poza funkcjonalne	  |  Opis
+	------------------------------+--------------------------------------------------------
+	Objętość systemu	          |  Wszystkie dane w obrębie serwisu muszą być osadzone w jednej instancji baz danych
+	Wydajność	                  |  Strona musi obsługiwać do 5000 użytkowników jednocześnie
+								  |  Platforma musi obsługiwać minimum 50 zamówień jednocześnie
+								  |  System musi obsługiwać archiwum zamówień minimum do 2 lat wstecz
+	Media komunikacyjne	          |  Łącze internetowe – min. 10Gbit/s
+	Standardy	                  |  Baza danych wspierana oprogramowaniem MySQL 
+	Bezpieczeństwo	              |  Zasoby sieciowe z ograniczonym dostępem
+								  |  Połączenie z bazą danych szyfrowane
+								  |  Backup bazy danych lokalnie, bez możliwości połączenia via Internet
+	Dostępność	                  |  Platforma musi funkcjonować w pełnym wymiarze czasu 
+								  |  Prace konserwacyjne mają odbywać się w godzinach nocnych lub czasie do tego specjalnie wyznaczonym
+	Skalowalność	              |  System wystawiania/rezerwacji musi posiadać możliwość rozbudowy w przypadku zwiększonego ruchu na platformie. 
+
+
+	
