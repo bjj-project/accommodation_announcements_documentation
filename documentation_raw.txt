@@ -329,7 +329,7 @@ to_pay						|	DECIMAL(5,2)	|	----	|	NOT NULL											|
 paid						|	DECIMAL(5,2)	|	----	|	NOT NULL DEFAULT 0.0								|
 date_validity				|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()								|
 
-Ponadto baza będzie posiadała zestaw procedór wbudowanych odzwierciedlające wszystkie funkcjonalności systemu. Poniższa tabela przedstawia takowe.
+Ponadto baza będzie posiadała zestaw procedur wbudowanych odzwierciedlające wszystkie funkcjonalności systemu. Poniższa tabela przedstawia takowe.
 Nazwa 					|			Argumenty wejściowe					|		Argumenty wyjściowe				|	Opis
 						|	nazwa					|	typ				|	nazwa			|	typ		        |
 ------------------------+---------------------------+-------------------+-------------------+-------------------+------------
@@ -340,7 +340,7 @@ login					|	mail            		|	VARCHAR(50)     |	was_ok			|	BOOLEAN	        |
 						|							|					|	admin			|	BOOLEAN			|
 						|							|					|	name			|	VARCHAR(50)		|
 						|							|					|	surname			|	VARCHAR(50)		|	
-------------------------+-------------------+---------------------------+-------------------+-------------------+------------
+------------------------+---------------------------+-------------------+-------------------+-------------------+------------
 registration			|	name					|	VARCHAR(50)		|	was_ok			|	BOOLEAN	        |
 						|	surname         		|	VARCHAR(50)     |	code			|	INT	            |
 						|	mail            		|	VARCHAR(50)     |	message			|	TEXT		    |
@@ -370,14 +370,141 @@ modification_user		|	id_user					|	BIGINT			|	was_ok			|	BOOLEAN			|
 						|	surname					|	VARCHAR(50)		|					|					|	
 						|	mail					|	VARCHAR(50)		|					|					|
 						|	password				|	VARCHAR(100)	|					|					|	
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+create_offer			|	id_user					|	BIGINT			|
+						|	id_promotion			|	INT				|
+						|	title					|	VARCHAR(100)	|
+						|	description				|	VARCHAR(200)	|
+						|	date_validity_from		|	DATE			|
+						|	date_validity_to		|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_offer		|	id_offer				|	BIGINT			|
+						|	id_promotion			|	INT				|
+						|	title					|   VARCHAR(100)	|
+						|	description				|   VARCHAR(200)	|
+						|	date_validity_from		|   DATE			|
+						|	date_validity_to		|   DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_offer			|	id_offer				|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+confirm_offer			|	id_offer				|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+add_image				|	id_offer				|	BIGINT			|
+						|	image					|	LONGBLOB		|
+						|	description				|	VARCHAR(200)	|
+						|	main					|	BOOLEAN			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_image			|	id_offer_image			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_image		|	id_offer_image			|	BIGINT			|
+						|	description				|	VARCHAR(200)	|
+						|	main					|	BOOLEAN			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+create_reservation		|	id_user					|	BIGINT			|
+						|	id_offer				|	BIGINT 			|
+						|	id_promotion			|	INT				|
+						|	date_from				|	DATE			|
+						|	date_to					|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+confirm_reservation		|	id_reservation			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_reservation		|	id_reservation			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_reservation|	id_reservation			|	BIGINT			|
+						|	date_from				|	DATE			|
+						|	date_to					|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
 
+Do pobierania danych z tabel bazy danych zostaną zastosowane widoki aby webservice nie poruszał się bezpośrednio po tabelach.    
+
+----------------------------+-----------------------+-------------------+-------------------
+Nazwa						|	Nazwa pola			|	Typ pola		|	Opis
+----------------------------+-----------------------+-------------------+-------------------
+get_all_clients				|	id_client			|	BIGINT			|
+							|	name				|	VARCHAR(50)		|
+							|	surname				|	VARCHAR(50)		|
+							|	email				|	VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_all_offers				|	id_offer			|	BIGINT			|
+							|	title				|	VARCHAR(50)		|
+							|	image_main			|	LONGBLOB		|
+							|	best				|	BOOLEAN			|
+							|	promotion			|	VARCHAR(100)	|
+							|	cost				|	DECIMAL(5,2)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_all_reservation			|	id_reservation		|	BIGINT			|
+							|	name				|	VARCHAR(50)		|
+							|	surname				|	VARCHAR(50)		|
+							|	title				|	VARCHAR(50)		|
+							|	data_from			|	DATE			|
+							|	data_to				|	DATE			|
+----------------------------+-----------------------+-------------------+-------------------
+get_offer_to_confirm		|	id_offer			|	BIGINT			|
+							|	title				|	VARCHAR(100)	|
+							|	description			|	VARCHAR(200)	|
+							|	images				|	LONGBLOB		|
+							|	cost				|	DECIMAL(5,2)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_reservation_to_confirm	|	id_client			|	BIGINT			|
+							|	name				|	VARCHAR(100)	|
+							|	surname				|   VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_reservation_to_confirm	|	id_reservation		|	BIGINT			|
+							|	name				|	VARCHAR(100)	|
+							|	surname				|	VARCHAR(100)	|
+							|	title				|	VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+
+Funkcje bazodanowe są to już ostatnim interface bazy które na podstawie argumentu pobiorą odpowiednie rekordy.
+----------------------------+-----------------------------------------------+---------------------------------------+------------
+Nazwa 						|			Argumenty wejściowe					|		Argumenty wyjściowe				|	Opis
+							|	nazwa					|	typ				|	nazwa			|	typ		        |
+----------------------------+---------------------------+-------------------+-------------------+-------------------+------------
+get_offers_by_client		|	id_client				|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	description		|	VARCHAR(200)
+							|							|					|	images			|	LONGBLOB
+							|							|					|	promotion		|	VARCHAR(100)
+							|							|					|	best			|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+get_reservation_by_client	|	id_client				|	BIGINT			| 	id_reservation	|	BIGINT
+							|							|					|	name			|	VARCHAR(100)
+							|							|					|	surname			|	VARCHAR(100)
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	confirmation	|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+get_reservation_by_id		|	id_reservation			|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	name			|	VARCHAR(100)
+							|							|					|	surname			|	VARCHAR(100)
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	confirmation	|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------					
+get_offer_by_id				|	id_offer				|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	description		|	VARCHAR(200)
+							|							|					|	images			|	LONGBLOB
+							|							|					|	promotion		|	VARCHAR(100)
+							|							|					|	best			|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+						
 3.3. Projekt architektury systemu
-	System będzie składał się z trzech warstw: strona WWW, WebService oraz baza danych. Strona WWW po wywołaniu akcji wysyła żądanie z odpowiednimi parametrami do WebService. WebService odbiera paczkę danych i wysyła żądanie do bazy danych uruchamiając procedurę z danymi z paczki. Procedura po zakończeniu pracy wysyła odpowiedz do WebService. WebService odbiera dane i wstawia w odpowiednie miejsca na stronie WWW. Poniższy rysunek przedstawia warstwy i kominikację między nimi.
-	
+	System będzie składał się z trzech warstw: strona WWW, WebService oraz baza danych. Strona WWW po wywołaniu akcji wysyła żądanie z odpowiednimi parametrami do WebService. WebService odbiera paczkę danych i wysyła żądanie do bazy danych. Baza danych zostanie wyposażona w „inatrface” pod postacią procedur/funkcji i widoków. Za ich pomocą zostana obsłużone żądania z WebService. „Inatrface”  po zakończeniu pracy wysyła odpowiedz do WebService. WebService odbiera dane i wstawia w odpowiednie miejsca na stronie WWW. Poniższy rysunek przedstawia warstwy i komunikację między nimi.	
 [Rysunek]
 
 	Diagram klas przedstawia strukturę klas oraz relacji między nimi zachodzące. W odróżnieniu od diagramu obiektów, który pokazuje jedynie egzemplarze (instancje) obiektów i ich zależności istniejące w konkretnym momencie. 
-
 [Rysunek: diagram_cd]	     
 3.4. Projekt algorytmów wybranych funkcjonalności
 	Diagram sekwencji – przebiegu funkcjonalności rejestracji użytkownika
