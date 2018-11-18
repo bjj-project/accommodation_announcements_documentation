@@ -509,8 +509,9 @@ get_offer_by_id				|	id_offer				|	BIGINT			|	id_offer		|	BIGINT
 3.4. Projekt algorytmów wybranych funkcjonalności
 	Diagram sekwencji – przebiegu funkcjonalności rejestracji użytkownika
 [Rysunek: diagram_sd_rejestracja_klienta]
-	Blokowa reprezentacja funkcjonalności rejestracji użytkownika
+	Blokowa reprezentacja funkcjonalności rejestracji użytkownika została podzielona na 3 sekcje: Strona WWW, WebService oraz baza danych. Sama funkcjonalność została podzielona na 2 podfunkcjonalnosci: rejesracja nowego klienta (rys.11) oraz potwierdzenie rejestracji nowego klienta przez administratora (rys.12)  
 [Rysunek: diagram_bd_rejestracja_klienta]
+[Rysunek: diagram_bd_potwierdzanie_rejestracji_klienta]
 
 
 
