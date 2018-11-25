@@ -1,172 +1,533 @@
-1. Wprowadzenie
-	1.1. Cel dokumentu
-		Niniejszy dokument prezentuje wymagania dotyczące oprogramowania, czyli opisuje funkcjonalność budowanego oprogramowania i warunki, jakie musi ono spełnić. Dokument ten został stworzony z myślą o potencjalnych użytkownikach, projektantach, programistach, testerach oraz autorach dokumentacji użytkowej.
+1. Wstęp
+1.1. Wprowadzenie
+1.1.1. Cel dokumentu
+Niniejszy dokument prezentuje wymagania dotyczące oprogramowania, czyli opisuje funkcjonalność budowanego oprogramowania i warunki, jakie musi ono spełnić. Dokument ten został stworzony z myślą o potencjalnych użytkownikach, projektantach, programistach, testerach oraz autorach dokumentacji użytkowej. 
 
-	1.2. Zakres produktu
-		System wystawienia/rezerwacji apartamentów powstał na potrzeby projektu zespołowego. Głównym celem wdrożenia nowej platformy jest umożliwienie wystawienia oraz rezerwacji apartamentów. 
+1.1.2. Zakres projektu
+System wystawienia/rezerwacji apartamentów powstał na potrzeby projektu zespołowego. Głównym celem wdrożenia nowej platformy jest umożliwienie wystawienia oraz rezerwacji apartamentów. 
 
-	1.3. Definicje, akronimy, skróty
-		* Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będą zalogowanym 
-	
-		* Klient - jest to osoba rejestrująca się w systemie mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
+1.1.3. Definicje, akronimy, skróty
+Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będą zalogowanym 
+Klient - jest to osoba rejestrująca się w systemie mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
+Administrator systemu - jest to osoba posiadająca uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta.
+Usługa sieciowa (WebService) - jest to aplikacja sieciowa zaprojektowana w celu umożliwienia rejestracji, logowania, zarządzania kontami, zarządzania apartamentami przy pomocy innego oprogramowania, które jest w stanie korzystać z usługi sieciowej.      
+Strona WWW - medium komunikacyjne między klientem a usługą sieciową. Prezentuje wyniki pracy usługi sieciowej w przejrzysty i wygodny sposób dla klienta. 
 
-		* Administrator systemu - jest to osoba posiadająca uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta.
+1.1.4. Omówienie dokumentu
+Rozdział pierwszy niniejszego dokumentu zawiera wstępne informacje dotyczące produktu oraz informacje ułatwiające poruszanie się po dokumencie, takie jak:
+			A) omówienie celu dokumentu
+			B) znaczenie używanych skrótów
+W rozdziale drugim omówiono ogólnie projekt wraz z krótką charakterystyką użytkowników i funkcjonalności, jakie będzie im udostępniał budowany system. 
+Rozdział trzeci jest poświęcony szczegółowemu opisowi wymagań funkcjonalnych, które zostały podzielone na grupy według funkcji systemu. 
+W rozdziale czwartym zostały omówione wymagania poza funkcjonalne, które uzupełniają wymagania z rozdziału trzeciego.
 
-		* Usługa sieciowa (WebService) - jest to aplikacja sieciowa zaprojektowana w celu umożliwienia rejestracji, logowania, zarządzania kontami, zarządzania apartamentami przy pomocy innego oprogramowania, które jest w stanie korzystać z usługi sieciowej.      
+1.2. Ogólny opis projektu
+1.2.1. Kontekst funkcjonowania system
+Diagramy przepływu danych służą do przedstawienia, w jaki sposób odbywa się przepływ i przetwarzanie danych w systemie. Poniższa tabelka przedstawia podstawowe elementy diagramów DFD.
+Tabela 1: Oznaczenia elementów diagramów DFD
+Oznaczenie graficzn |	Nazwa elementu	| 	Opis
+					|	Terminator		|	Obiekty nie wchodzące w skład systemu, ale stanowią odbiorców bądź źródła danych
+					|	Proces			|	Wykonujący się kod w postaci funkcji wykonująca określony cel
+					|	Przepływ 		|	danych	Kierunek poruszania się określonych danych
+					|	Magazyn danych	|	Miejsce przetrzymywania, zbierania danych 
 
-		* Strona WWW - medium komunikacyjne między klientem a usługą sieciową. Prezentuje wyniki pracy usługi sieciowej w przejrzysty i wygodny sposób dla klienta.
+Pierwszym, najbardziej ogólnym diagramem DFD jest diagram kontekstowy, który przedstawia ogólnikowo podstawowe przepływy przetwarzania informacji w systemie wystawiania/rezerwacji apartamentów. W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
+ 
+Rysunek 1:Diagram kontekstowy
 
-	1.4. Omówienie dokumentu
-		Rozdział pierwszy niniejszego dokumentu zawiera wstępne informacje dotyczące produktu oraz informacje ułatwiające poruszanie się po dokumencie, takie jak:
-			* omówienie celu dokumentu
-			* znaczenie używanych skrótów
-		W rozdziale drugim omówiono ogólnie projekt wraz z krótką charakterystyką użytkowników i funkcjonalności, jakie będzie im udostępniał budowany system. 
-		Rozdział trzeci jest poświęcony szczegółowemu opisowi wymagań funkcjonalnych, które zostały podzielone na grupy według funkcji systemu. 
-		W rozdziale czwartym zostały omówione wymagania poza funkcjonalne, które uzupełniają wymagania z rozdziału trzeciego. 
 
-2. Ogólny opis produktu
-	2.1. Kontekst funkcjonowania system
-		Diagramy przepływu danych służą do przedstawienia, w jaki sposób odbywa się przepływ i przetwarzanie danych w systemie. Poniższa tabelka przedstawia podstawowe elementy diagramów DFD.
+Tabela 2: Elementy diagramu kontekstowego
+Nazwa elementu								|	Typ elementu	|	Opis
+--------------------------------------------+-------------------+-----------------------
+Gość										|	Terminator		|	Użytkownik nie mający konta, może tylko przeglądać oferty
+Klient										|	Terminator		|	Użytkownik mający konto w systemie, może przeglądać oferty, zarządzać swoimi ofertami oraz rezerwować wybrany apartament
+Administrator								|	Terminator		|	Użytkownik posiadający najwyższe uprawnienia. 
+System wystawiania/rezerwacji apartamentów	|	Proces			|	Główny proces systemu
+Logowanie									|	Przepływ		|	Przepływ danych dostępowych klienta
+Zarządzanie kontami klientów				|	Przepływ		|	Przepływ danych polegający na edycji konta klienta przez administratora
+Zarządzanie ogłoszeniami					|	Przepływ		|	Przepływ danych polegający na edycji treści ogłoszenia przez administratora
+Rejestracja									|	Przepływ		|	Przepływ danych dostępowych w celu utworzenia konta
+Przeglądanie ofert z filtrami				|	Przepływ		|	Przepływ danych zawierających filtry sortujące i segregujące wyświetlane oferty
+Rezerwacja apartamentów						|	Przepływ		|	Przepływ danych wskazujących na ofertę do zarezerwowania
+Zarządzanie swoim kontem					|	Przepływ		|	Przepływ danych polegających na edycji własnego konta przez klienta
+Zarządzanie swoimi ogłoszeniami				|	Przepływ		|	Przepływ danych polegający na edycji przez klienta treści własnych ogłoszeń
+
+
+1.2.2. Charakterystyka użytkowników
+Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będąca zalogowanym. Nie posiada żadnych uprawnień. Może jedynie przeglądać i wyszukiwać oferty.     
 		
-	//Tabela 2.1. Oznaczenia elementów diagramów DFD 
-	Oznaczenie graficzne | Nazwa elementu  | Opis
-	---------------------+-----------------+-------
-	prostokąt			 | Terminator      | ----
-	Kółko			     | Proces          | ----
-	Strzałka             | Przepływ danych | ----
+Klient - jest to osoba rejestrująca się w systemie z najniższymi uprawnieniami, mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert noclegowych, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
 
-		Pierwszym, najbardziej ogólnym diagramem DFD jest diagram kontekstowy, który przedstawia ogólnikowo podstawowe przepływy przetwarzania informacji w systemie wystawiania/rezerwacji apartamentów. W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
-	
-	//Tabela 2.2. Podstawowe elementy diagramu kontekstowego
-	Nazwa elementu | Typ elementu | Opis
-	---------------+--------------+----------------------------------
-	Gość		   | Terminator	  | Przegląda oferty
-	Klient		   | Terminator	  | Wprowadza apartament do systemu, rezerwuje apartament widniejący w systemie, przegląda oferty
-	Administrator  | Terminator	  | Zarządza platformą, aktualizuje dane pojazdów w bazie
-	wystawiania/   |              |                                                                        
-	rezerwacji     | Proces       | Przyjmuje, przetwarza i zwraca wynik zapytania klienta i administratora     
-	apartamentów   |              |                                                     
-TODO: dopisać przepływy danych...
-[diagram_dfd_kontekst.png]
-	//Rysunek 2.1. Kontekstowy diagram DFD
-	
-	2.2. Charakterystyka użytkowników
-		* Gość - jest to każda dowolna osoba poruszająca się po serwisie nie będąca zalogowanym. Nie posiada żadnych uprawnień. Może jedynie przeglądać i wyszukiwać oferty.     
-		
-		* Klient - jest to osoba rejestrująca się w systemie z najniższymi uprawnieniami, mająca możliwość zarządzania swoim kontem (zmiana danych personalnych, usunięcia konta )  przeglądania ofert noclegowych, wystawienia apartamentów na wynajem oraz zarezerwowania apartamentów. 
+Administrator - jest to osoba posiadająca najwyższe uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta.
 
-		* Administrator - jest to osoba posiadająca najwyższe uprawnienia do administrowania i zarządzania systemem oraz aktualizowania zawartości strony. Pełni rolę administratora bazy danych oraz serwisanta. 
-		
-	2.3. Główne funkcje systemu
-		Gość w kontekście systemu może:
-			* Przeglądać oferty
+1.2.3. Główne funkcje systemu
+	Gość w kontekście systemu może:
+		1) Przeglądać oferty
 	
-		Klient w kontekście systemu może:
-			* Rejestrować, logować, wylogować się i zmieniać swoje personalia
-			* Przeglądać oferty
-			* Dokonywać i zarządzać rezerwacjami określonych apartamentów na określony czas
-			* Wystawiać i zarządzać własnymi apartamentami na wynajem na określony czas i cenę
-			* Dokonywać transakcji wystawienia i/lub wynajem apartamentu
+	Klient w kontekście systemu może:
+		1) Rejestrować, logować, wylogować się i zmieniać swoje personalia
+		2) Przeglądać oferty
+		3) Dokonywać i zarządzać rezerwacjami określonych apartamentów na określony czas
+		4) Wystawiać i zarządzać własnymi apartamentami na wynajem na określony czas i cenę
+		5) Dokonywać transakcji wystawienia i/lub wynajem apartamentu
 			
-		Administrator w kontekście systemu może:
-			* Tworzyć konta z dowolnymi dostępnymi uprawnieniami i zarządzać wszystkimi kontami
-			* Zmieniać cenę wystawienia apartamentu
-			* Autoryzować konta nowo utworzonych klientów
-			* Usuwać i zarządzać ogłoszeniami
-			* Przeglądać oferty
+	Administrator w kontekście systemu może:
+		1) Tworzyć konta z dowolnymi dostępnymi uprawnieniami i zarządzać wszystkimi kontami
+		2) Zmieniać cenę wystawienia apartamentu
+		3) Autoryzować konta nowo utworzonych klientów
+		4) Usuwać i zarządzać ogłoszeniami
+		5) Przeglądać oferty
 
-	2.4. Ograniczenia
-		* Dane osobowe muszą być zabezpieczone zgodnie z ustawą o ochronie danych osobowych z Dz.U.1997 Nr 133 poz. 883.
-		* Regulamin serwisu.
-		
-	2.5. Założenia i zależności
-		* Prezentowane wymagania dotyczą stanu prawnego na dzień 31.07.2018r.
-		
-3. Wymagania funkcjonalne 
-	3.1. Diagramy DFD 
-		DFD obrazuje za pomocą przepływów kierunek przepływu danych pomiędzy funkcjami, magazynami i obiektami zewnętrznymi. DFD mogą być prezentowane na różnych stopniach szczegółowości lit[1] -> https://pl.wikipedia.org/wiki/Diagram_przep%C5%82ywu_danych
-		3.1.1. Diagram poziomu zerowego
-			Drugim diagramem DFD jest diagram poziomu zerowego. Ukazuje szczegółowe przepływy przetwarzania informacji. W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
-		//Tabela 3.1. Elementy diagramu poziomu zerowego
-		Nazwa elementu | Typ elementu | Opis
-		---------------+--------------+----------------------------------
-[diagram_dfd_poziom_zerowy.png]
-		//Rysunek 3.1. Diagram poziomu zerowego
-TODO: najpierw zrobić diagram poziomu zerowego...
-	
-		3.1.2 Diagram DFD przeglądania ofert, rejestracji i logowania/wylogowania
-		//Tabela 3.2. Elementy diagramu
-		Nazwa elementu | Typ elementu | Opis
-		---------------+--------------+----------------------------------
-[diagram_dfd_przegladanie_ofert_rejestracja_logowanie.png]
-		//Rysunek 3.2. Diagram DFD przeglądania ofert, rejestracji i logowania/wylogowania
-TODO: najpierw zrobić diagram poziomu zerowego...
-	
-		3.1.3 Diagram DFD przeglądania ofert i rezerwacja apartamentu przez klienta
-		//Tabela 3.3. Elementy diagramu
-		Nazwa elementu | Typ elementu | Opis
-		---------------+--------------+----------------------------------
-[diagram_dfd_przegladanie_ofert_rezerwacja.png]
-		//Rysunek 3.3. Diagram DFD przeglądania ofert i rezerwacja apartamentu przez klienta
-TODO: najpierw zrobić diagram poziomu zerowego...
-	
-	3.2. Funkcje systemu
-TODO: diagram hierarchii funkcji (FHD)
-[diagram_fhd.png]
-		//Rysunek 3.4. Diagram hierarchii funkcji
-TODO: lista funkcji i opis 
-	//Tabela 3.4. Funkcje systemu i ich opisy
-	Nazwa funkcji | Opis
-	--------------+----------------------------------
-	
-	3.3. Przypadki użycia
-		Przypadek użycia przedstawia interakcję pomiędzy aktorem (użytkownikiem systemu), który inicjuje zdarzenie oraz samym systemem jako sekwencję prostych kroków. lit[2] -> https://pl.wikipedia.org/wiki/Przypadek_u%C5%BCycia
-		
-		3.3.1. Rezerwacja apartamentu
-TODO: diagram UCD rezerwacja apartamentu
-[diagram_ucd_rezerwacja_apartamentu.png]
-			//Rysunek 3.5. Diagram UCD rezerwacja apartamentu
-		3.3.2. Wstawianie apartamentu przez klienta na określony czas
-TODO: diagram UCD wstawianie apartamentu
-[diagram_ucd_wstawianie_apartamentu.png]
-			//Rysunek 3.6. Diagram UCD wstawianie apartamentu przez klienta
-			
-	3.4. Diagram ERD
-		Diagram związków encji lub Diagram ERD (od ang. Entity-Relationship Diagram) – rodzaj graficznego przedstawienia związków pomiędzy encjami używany w projektowaniu systemów informacyjnych do zademonstrowania konceptualnych modeli danych używanych w systemie. lit[3] -> https://pl.wikipedia.org/wiki/Diagram_zwi%C4%85zk%C3%B3w_encji
-		
-TODO: diagram ERD
-[diagram_erd.png]
-		//Rysunek 3.7. Diagram ERD
-		
-	3.5. Diagram architektury systemu wysokiego poziomu
-		Istotnym elementem modelowania (a potem projektowania) jest stworzenie całościowej architektury kompletnego systemu. Taka architektura „wysokiego poziomu” przedstawia najczęściej system w postaci zestawu wzajemnie komunikujących się (oddziałujących) podsystemów. lit[4] -> http://zasoby.open.agh.edu.pl/~10sdczerner/page/architektura_systemu.html
-		
-TODO: diagram architektura systemu
-[diagram_architektura_systemu.png]
-		//Rysunek 3.8. Diagram Architektura systemu
-		
-	3.5.1. Opis
-TODO: Opis
+1.2.4. Ograniczenia
+	1)Dane osobowe muszą być zabezpieczone zgodnie z ustawą o ochronie danych osobowych z Dz.U.1997 Nr 133 poz. 883.
+	2)Regulamin serwisu.
 
-	3.5.2. Uzasadnienie
-TODO: Uzasadnienie
+1.2.5. Założenia i zależności
+	1)Prezentowane wymagania dotyczą stanu prawnego na dzień 31.07.2018r.
 
-4. Wymagania poza funkcjonalne
-		//Tabela 4.1. Wymagania poza funkcjonalne
-	Wymaganie poza funkcjonalne	  |  Opis
-	------------------------------+--------------------------------------------------------
-	Objętość systemu	          |  Wszystkie dane w obrębie serwisu muszą być osadzone w jednej instancji baz danych
-	Wydajność	                  |  Strona musi obsługiwać do 5000 użytkowników jednocześnie
-								  |  Platforma musi obsługiwać minimum 50 zamówień jednocześnie
-								  |  System musi obsługiwać archiwum zamówień minimum do 2 lat wstecz
-	Media komunikacyjne	          |  Łącze internetowe – min. 10Gbit/s
-	Standardy	                  |  Baza danych wspierana oprogramowaniem MySQL 
-	Bezpieczeństwo	              |  Zasoby sieciowe z ograniczonym dostępem
-								  |  Połączenie z bazą danych szyfrowane
-								  |  Backup bazy danych lokalnie, bez możliwości połączenia via Internet
-	Dostępność	                  |  Platforma musi funkcjonować w pełnym wymiarze czasu 
-								  |  Prace konserwacyjne mają odbywać się w godzinach nocnych lub czasie do tego specjalnie wyznaczonym
-	Skalowalność	              |  System wystawiania/rezerwacji musi posiadać możliwość rozbudowy w przypadku zwiększonego ruchu na platformie. 
+2. Analiza problemu
+2.1. Wymagania funkcjonalne
+2.1.1. Diagramy DFD
+DFD obrazuje za pomocą przepływów kierunek przepływu danych pomiędzy funkcjami, magazynami i obiektami zewnętrznymi. DFD mogą być prezentowane na różnych stopniach szczegółowości lit[1] -> https://pl.wikipedia.org/wiki/Diagram_przep%C5%82ywu_danych
+
+Pierwszym diagramem DFD był diagram kontekstowy, patrz rozdział 1.2.1.  Drugim z kolei diagramem DFD jest diagram poziomu zerowego(tzn. diagram systemowy). Ukazuje główne funkcje, przepływy i magazyny danych w systemie.   W poniższej tabelce zostały przedstawione poszczególne elementy kontekstowego diagramu DFD i ich krótki opis.
+ 
+Rysunek 2: Diagram DFD poziomu zerowego
+
+Tabela 3:Elementy diagramu DFD poziomu zero
+Nazwa elementu													|	Typ elementu	|	Opis
+----------------------------------------------------------------+-------------------+---------------------
+Gość															|	Terminator		|	Użytkownik nie mający konta, może tylko przeglądać oferty
+Klient															|	Terminator		|	Użytkownik mający konto w systemie, może przeglądać oferty, zarządzać swoimi ofertami oraz rezerwować wybrany apartament
+Administrator													|	Terminator		|	Użytkownik posiadający najwyższe uprawnienia. 
+Potwierdzanie płatności											|	Proces			|	Proces, w którym admin. potwierdza płatność klienta
+Potwierdzanie ofert												|	Proces			|	Proces, w którym admin. potwierdza ofertę klienta.
+Prezentacja wyników												|	Proces			|	Proces prezentacji wyników w warstwie frontend.
+Wstawianie i edycja ofert apartamentów							|	Proces			|	Proces, w którym klient dodaje i edytuje treść ofert.
+Rezerwacja apartamentu i edycja  zarezerwowanego apartamentu	|	Proces			|	Proces, w którym klient rezerwuje daną ofertę.
+Przeglądanie ofert												|	Proces			|	Proces przeglądania ofert przez użytkowników.
+Logowanie														|	Proces			|	Proces logowania.
+Rejestracja														|	Proces			|	Proces rejestracji gościa.
+Potwierdzanie klientów											|	Proces			|	Proces potwierdzania klientów przez administratora.
+Pobranie niepotwierdzonych klientów								|	Proces			|	Proces pobierania danych klientów bez aktywnego potwierdzenia.
+Wynik															|	Przepływ		|	Przepływ danych wynikowych procesów.
+Dane oferty														|	Przepływ		|	Przepływ danych konkretnej oferty. 
+Dane rezerwacji i płatności										|	Przepływ		|	Przepływ danych konkretnej rezerwacji i płatności za rezerwację.
+Zaprezentowany wynik											|	Przepływ		|	Przepływ danych wynikowych do zaprezentowania.
+Żądanie	Przepływ												|	Przepływ 		|	danych zawierających żądanie wywołania procesu.
+Żądanie z filtrami												|	Przepływ		|	Przepływ danych zawierających żądanie ograniczone filtrami.
+Dane do rejestracji												|	Przepływ		|	Przepływ danych gościa dla procesu rejestracji.
+Pobranie danych niepotwierdzonych klientów						|	Przepływ		|	Przepływ danych klientów bez aktywnego potwierdzenia.
+Dane klienta													|	Przepływ		|	Przepływ danych konkretnego klienta.
+Filtry															|	Przepływ		|	Przepływ danych filtrów.
+Baza ofert apartamentów											|	Magazyn danych	|	Baza zawierająca dane ofert apartamentów.
+Baza klientów niepotwierdzonych									|	Magazyn danych	|	Baza zawierająca dane klientów bez aktywnego potwierdzenia.
+Baza klientów													|	Magazyn danych	|	Baza zawierająca dane klientów.
+Baza ofert apartamentów											|	Magazyn danych	|	Baza zawierająca dane ofert apartamentów.
+Rezerwacje nieopłacone											|	Magazyn danych	|	Baza zawierająca dane rezerwacji bez Dokonanej płatności.
+Baza niepotwierdzonych ofert apartamentów						|	Magazyn danych	|	Baza zawierająca dane ofert bez aktywnego potwierdzenia.
+Baza rezerwacji													|	Magazyn danych	|	Baza zawierająca dane rezerwacji.
+
+Trzecim diagramem DFD test diagram procesów elementarnych tzn. diagram szczegółowy. Ukazuje szczegółowe realizacje funkcji systemowych. Na poniższym obrazu jest przestawiony proces pozyskiwania klientów. 
+ 
+Rysunek 3:Diagram DFD szczegółowy procesu pozyskiwania klientów
+
+
+Tabela 4: Elementy szczegółowego diagramu DFD
+Nazwa elementu									|	Typ elementu	|	Opis
+------------------------------------------------+-------------------+------------------
+Gość											|	Terminator		|	Użytkownik nie mający konta, może tylko przeglądać oferty
+Klient											|	Terminator		|	Użytkownik mający konto w systemie, może przeglądać oferty, zarządzać swoimi ofertami oraz rezerwować wybrany apartament
+Administrator									|	Terminator		|	Użytkownik posiadający najwyższe uprawnienia. 
+Prezentacja wyników								|	Proces			|	Proces prezentacji wyników w warstwie frontend
+Logowanie	Proces								|	Proces 			|	Logowania klienta.
+Walidacja danych do logowania					|	Proces			|	Proces weryfikacji danych logującego się klienta z danymi w bd klientów.
+Przeglądanie ofert z wykorzystaniem filtrów		|	Proces			|	Proces przeglądania (ograniczony przez filtry) ofert przez użytkownika 
+Potwierdzanie nowych klientów					|	Proces			|	Proces polegający na zmianie statusu zarejestrowanego klienta na 'potwierdzony'
+Rejestracja										|	Proces			|	Proces rejestracji klientów.
+Walidacja danych do rejestracji					|	Proces			|	Proces weryfikacji danych rejestrującego się klienta.
+Dane klienta / nowego klienta					|	Przepływ		|	Przepływ danych dostępowych klienta.
+Sprawdzone dane do logowania					|	Przepływ		|	Przepływ danych klienta po weryfikacji.
+Dane do logowania								|	Przepływ		|	Przepływ danych do logowania/
+Błąd walidacji									|	Przepływ		|	Przepływ danych informujących o błędnej walidacji.
+Żądanie wylogowania								|	Przepływ		|	Przepływ danych zawierających żądanie wylogowania.
+Komunikat o wylogowaniu							|	Przepływ		|	Przepływ danych zawierających informację o wylogowaniu.
+Zaprezentowany status operacji					|	Przepływ		|	Przepływ danych zawierających zaprezentowany status danej operacji.
+Status operacji									|	Przepływ		|	Przepływ danych zawierających status danej operacji.
+Dane do rejestracji								|	Przepływ		|	Przepływ danych gościa do rejestracji.
+Sprawdzone dane do rejestracji					|	Przepływ		|	Przepływ zweryfikowanych danych gościa do rejestracji.
+Zaprezentowana lista ofert						|	Przepływ		|	Przepływ zawierający listę ofert przeznaczonych do zaprezentowania.
+Podane filtry									|	Przepływ		|	Przepływ danych ograniczonych przez filtry.
+Lista ofert apartamentów						|	Przepływ		|	Przepływ danych zawierających listę ofert.
+Baza klientów 									|	Magazyn danych	|	Baza zawierająca dane klientów.
+Baza ofert apartamentów							|	Magazyn danych	|	Baza zawierająca dane ofert apartamentów.
+
+2.1.2. Funkcje systemu
+ 
+Rysunek 4: Diagram hierarchii funkcji
+
+Tabela 5: Lista funkcji
+Nazwa funkcji							|	Wymagane uprawnienia	|	Opis
+----------------------------------------+---------------------------+-----------------
+Ewidencja klientów						|	Administrator			|	Potwierdzanie kont po rejestracji, możliwość odrzucania rejestracji
+Dodanie nowego klienta / rejestracja	|	Klient, Administrator	|	Klient może rejestrować się przez stronę WWW. Możliwość „ręcznego” dodania klienta przez Administratora  
+Edycja danych klienta					|	Klient, Administrator	|	Edytowanie danych o kliencie takich jak: imię nazwisko, email  
+Usunięcie klienta						|	Klient, Administrator	|	Usuwanie klient nie fizycznie z bazy, dane klienta zostają zachowane  
+Najlepsze oferty						|	Administrator			|	Wskazywanie najlepszych ofert w danym czasie 
+Dodanie nowej oferty					|	Klient, Administrator	|	Dodanie nowej oferty apartamentu z danymi cena, opis, nazwa, terminy, ilość miejsc  
+Zmiana istniejącej oferty				|	Klient, Administrator	|	Zmiana danych oferty przed jej potwierdzeniem. Po potwierdzenie możliwość edycji jest wyłączona 
+Potwierdzanie oferty					|	Administrator			|	Potwierdzanie ofert która została zatwierdzona przez administratora. Potwierdzone oferty SA widoczne dla wszystkich klientów natomiast niepotwierdzone ofert są widoczne dla twórcy i administratora  
+Usunięcie oferty						|	Klient, Administrator	|	Usuwanie ofert jest możliwe przed jej potwierdzeniem, po potwierdzeniu usuwanie jest niemożliwe. Oferta automatycznie się usuwa (nie fizycznie) po przeterminowaniu.  
+Dodanie nowej rezerwacji				|	Klient, Administrator	|	Dodawanie nowej rezerwacji odbywa się tylko dla potwierdzonych ofert. Nie ma  możliwość rezerwować nową zachodząca na siebie rezerwacji. Rezerwacje SA automatyczne kasowane po przedawnieniu do potwierdzenia
+Zmiana istniejącej rezerwacji			|	Klient, Administrator	|	Zmiana danych rezerwacji takich jak ilość łóżek czy termin można zmieniać dopóki rezerwacja jest niepotwierdzona  
+Potwierdzenie rezerwacji				|	Administrator			|	Potwierdzanie rezerwacji następuje po zapłaceniu za nią. Administrator jest odpowiedzialny za wstawianie płatności do bazy i potwierdzanie rezerwacji
+Usunięcie rezerwacji					|	Klient, Administrator	|	Rezerwacje SA usuwane, niepotwierdzona są usuwane fizycznie z bazy. Potwierdzone natomiast są anulowane razem z płatnością  
+Logowanie								|	Klient, Administrator	|	Logowanie do systemu sprawdzający dostęp oraz uprawnienia logującego 
+
+2.1.3. Przypadki użycia
+Przypadek użycia przedstawia interakcję pomiędzy aktorem (użytkownikiem systemu), który inicjuje zdarzenie oraz samym systemem jako sekwencję prostych kroków. lit[2] -> https://pl.wikipedia.org/wiki/Przypadek_u%C5%BCycia
+ 
+Rysunek 5: Diagram przypadków użycia
+
+2.1.4. Diagram ERD
+Diagram związków encji lub Diagram ERD (od ang. Entity-Relationship Diagram) – rodzaj graficznego przedstawienia związków pomiędzy encjami używany w projektowaniu systemów informacyjnych do zademonstrowania konceptualnych modeli danych używanych w systemie. lit[3] -> https://pl.wikipedia.org/wiki/Diagram_zwi%C4%85zk%C3%B3w_encji
+ 
+Rysunek 6: Diagram ERD
+
+2.1.5. Diagram architektury systemu
+Istotnym elementem modelowania (a potem projektowania) jest stworzenie całościowej architektury kompletnego systemu. Taka architektura „wysokiego poziomu” przedstawia najczęściej system w postaci zestawu wzajemnie komunikujących się (oddziałujących) podsystemów. lit[4] -> http://zasoby.open.agh.edu.pl/~10sdczerner/page/architektura_systemu.html
+ 
+Rysunek 7: Diagram architektury systemu
+
+Do realizacji projektu została wybrana architektura klient-server z scentralizowaną bazą danych. Po stronie servera jest baza danych MySQL pracująca na localhost oraz podpięty do niej WebService z interface wystawionym na świat. Po stronie klienta uruchomiana jest strona WWW w przeglądarce internetowej. 
+
+Strona internetowa działa o oparciu HTML5, CSS3 JS, PHP7.4 + Symfony. Wykorzystana została wzorzec architektoniczny MVC.  
+
+Wybrana została taka architektura systemu z powodów: łatwy serwis, mały koszt budowy, łatwa migracja, szybka konfiguracja.
+Do budowy strony został wykorzystany wzorzec architektoniczny MVC zawarty w frameworku Symfony. Architektura MVC została wybrana z powodu rozdzielenie projektu strony na trzy główne części które są wzajemnie połączone co ułatwia rozbudowanie niezależnie każdej części oddzielnie. Symfony jest zorientowana obiektowo co daje większą abstrakcję. Nie zależy od bazy danych wynikająca z MVC. Zostały użyty w niej scaffolding który generuje struktóre opisaną na podstawie bazy danych co powoduje generowanie kodu do operacji na bazie danych z poziomu kodu. Internacjonalizacja też jest obsługiwana. Symfony zabezpiecza strony przed atakami XSS i CSRF.
+XSS jest to sposób ataku na serwis WWW polegający na osadzeniu w treści atakowanej strony kodu (zazwyczaj JavaScript), który wyświetlony innym użytkownikom może doprowadzić do wykonania przez nich niepożądanych akcji. Skrypt umieszczony w zaatakowanej stronie może obejść niektóre mechanizmy kontroli dostępu do danych użytkownika lit[5]-> https://pl.wikipedia.org/wiki/Cross-site_scripting .
+CSRF jest to metoda ataku na serwis internetowy tak aby  skłonić użytkownika zalogowanego do serwisu internetowego do tego, aby uruchomił on odnośnik, którego otwarcie wykona w owym serwisie akcję, do której atakujący nie miałby w przeciwnym razie dostępu lit[6]-> https://pl.wikipedia.org/wiki/Cross-site_request_forgery .
+             
+
+2.2. Wymagania poza funkcjonalne
+Tabela 6:Wymagania poza funkcjonalne
+Wymaganie poza funkcjonalne									|	Opis
+------------------------------------------------------------+----------------------------
+Objętość systemu											|	Wszystkie dane w obrębie serwisu muszą być osadzone w jednej instancji baz danych
+Wydajność													|	Strona musi obsługiwać do 5000 użytkowników jednocześnie
+															|	Platforma musi obsługiwać minimum 50 zamówień jednocześnie
+															|	System musi obsługiwać archiwum zamówień minimum do 2 lat wstecz
+Media komunikacyjne											|	Łącze internetowe – min. 10Gbit/s
+Standardy													|	Baza danych wspierana oprogramowaniem MySQL
+Bezpieczeństwo												|	Zasoby sieciowe z ograniczonym dostępem
+															|	Połączenie z bazą danych szyfrowane
+															|	Backup bazy danych lokalnie, bez możliwości połączenia via Internet
+Dostępność													|	Platforma musi funkcjonować w pełnym wymiarze czasu
+															|	Prace konserwacyjne mają odbywać się w godzinach nocnych lub czasie do tego specjalnie wyznaczonym
+Skalowalność												|	System wystawiania/rezerwacji musi posiadać możliwość rozbudowy w przypadku zwiększonego ruchu na platformie.
+
+3. Projektowanie systemu
+3.1. Opis bazy danych
+	Baza danych zostanie stworzona o oparciu relacyjnych baz danych. Jako system zarzadzania bazą danych został wyrany MySQL w wersji 8.0.11 a narzedze do administrowania zostało wybrane phpMyAdmin w wersji 4.8.3. Oprócz samych tabel baza będzie dysponowała szeregiem procedór wbudowanych które będą sterowały danymi. Procedury wbudowane będą pełniły rolę swego rodzaju interfejsu miedzy tabelami a resztą systemu.
+3.2. Model bazy danych 
+ 
+Rysunek 8: Model bazy danych
+
+Tabela 7: Tabela przedstawiająca poszczególne encje bazy danych
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: database_version
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+major						|	INT				|	---		|	NOT NULL						|	TODO
+minior						|	INT				|	---		|	NOT NULL	    				|	
+Bug_fix						|	INT				|	---		|	NOT NULL						|	
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: system_options				
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+name						|	VARCHAR (100)	|	---		|	NOT NULL						|
+type						|	VARCHAR (100)	|	---		|	NOT NULL						|
+value						|	VARCHAR (100)	|	---		|	NOT NULL						|
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: permisions				
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_permission				|	INT				|	PK		|	NOT NULL						|	
+name						|	VARCHAR(100)	|	---		|	NOT NULL						|	
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: clients_registration
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_client_registration		|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT			|	
+name						|	VARCHAR(50)		|	----	|	NOT NULL						|
+surname						|	VARCHAR(50)		|	----	|	NOT NULL						|
+mail						|	VARCHAR(50)		|	----	|	NOT NULL						|
+password					|	VARCHAR(100)	|	----	|	NOT NULL						|
+agreement_for_marketing		|	BOOLEAN			|	----	|	NOT NULL						|
+agreement_for_rodo			|	BOOLEAN			|	----	|	NOT NULL						|
+agreement_for_regulations	|	BOOLEAN			|	----	|	NOT NULL						|
+ip_address_v4				|	VARCHAR(15)		|	----	|	NOT NULL						|
+creation_date				|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()			|
+confirmation				|	BOOLEAN			|	----	|	NOT NULL DEFAULT FALSE			|
+confirmation_date			|	TIMESTAMP		|	----	|	NULL DEFAULT NULL				|
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: users
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_user						|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT			|
+id_client_registration		|	BIGINT			|	FK		|	REFERENCES clients_registration	|	
+id_permission				|	INT				|	FK		|	REFERENCES permissions			|		
+name						|	VARCHAR(50)		|	----	|	NOT NULL						|	
+surname						|	VARCHAR(50)		|	----	|	NOT NULL						|	
+mail						|	VARCHAR(50)		|	----	|	NOT NULL						|
+password					|	VARCHAR(100)	|	----	|	NOT NULL						|
+active						|	BOOLEAN			|	----	|	NOT NULL DEFAULT TRUE			|
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: offers
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_offer					|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT			|	
+id_user						|	BIGINT			|	FK		|	NOT NULL REFERENCES users		|	
+id_promotion				|	INT				|	FK		|	NOT NULL REFERENCES promotions	|
+title						|	VARCHAR(100)	|	----	|	NOT NULL						|
+description					|	VARCHAR(200)	|	----	|	NOT NULL						|
+best						|	BOOLEAN			|	----	|	NOT NULL DEFAULT FALSE			|
+date_validity_from			|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()			|
+date_validity_to			|	TIMESTAMP		|	----	|	NOT NULL						|
+active						|	BOOLEAN			|	----	|	NOT NULL DEFAULT TRUE			|
+confirmation				|	BOOLEAN			|	----	|	NOT NULL DEFAULT FALSE			|
+confirmation_date			|	TIMESTAMP		|	----	|	NULL DEFAULT NULL				|
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: offer_images
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_offer_image				|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT			|	
+id_offer					|	BIGINT			|	FK		|	NOT NULL REFERENCES offers		|	
+image						|	LONGBLOB		|	----	|	NOT NULL			            |	
+description					|	VARCHAR(200)	|	----	|	NOT NULL			            |	
+main						|	BOOLEAN			|	----	|	NOT NULL DEFAULT FALSE			|	
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: reservations
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_reservation				|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT	        |	
+id_user						|	BIGINT			|	FK		|	NOT NULL REFERENCES users	    |	
+id_offer					|	BIGINT			|	FK		|	NOT NULL REFERENCES offers	    |	
+id_promotion				|	INT				|	FK		|	NOT NULL REFERENCES promotions	|	
+creation_date				|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()			|	
+date_from					|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()			|	
+date_to						|	TIMESTAMP		|	----	|	NOT NULL						|	
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: type_payment_status
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory					|	Opis
+id_type_payment_status		|	INT				|	PK		|	NOT NULL						|	
+name						|	VARCHAR(100)	|	----	|	NOT NULL						|	
+created						|	BOOLEAN			|	----	|	NOT NULL						|	
+during						|	BOOLEAN			|	----	|	NOT NULL						|	
+paid						|	BOOLEAN			|	----	|	NOT NULL						|	
+cancel						|	BOOLEAN			|	----	|	NOT NULL						|	
+----------------------------+-------------------+-----------+-----------------------------------+------------------------
+Tabela: payment
+Nazwa						|	Typ				|	Klucze	|	Modyfikatory										|Opis
+id_payment					|	BIGINT			|	PK		|	NOT NULL AUTO_INCREMENT								|
+id_reservation				|	BIGINT			|	FK		|	NOT NULL REFERENCES reservations					|
+id_type_payment_status		|	INT				|	FK		|	NOT NULL DEFAULT 1 REFERENCES type_payment_status	|	
+date_change_payment_status	|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()								|
+to_pay						|	DECIMAL(5,2)	|	----	|	NOT NULL											|
+paid						|	DECIMAL(5,2)	|	----	|	NOT NULL DEFAULT 0.0								|
+date_validity				|	TIMESTAMP		|	----	|	NOT NULL DEFAULT NOW()								|
+
+Ponadto baza będzie posiadała zestaw procedur wbudowanych odzwierciedlające wszystkie funkcjonalności systemu. Poniższa tabela przedstawia takowe.
+Nazwa 					|			Argumenty wejściowe					|		Argumenty wyjściowe				|	Opis
+						|	nazwa					|	typ				|	nazwa			|	typ		        |
+------------------------+---------------------------+-------------------+-------------------+-------------------+------------
+login					|	mail            		|	VARCHAR(50)     |	was_ok			|	BOOLEAN	        |
+						|	password				|	VARCHAR(50)     |	code			|	INT	            |
+						|							|					|	message			|	TEXT		    |
+						|							|					|	id_user			|	BIGINT		    |
+						|							|					|	admin			|	BOOLEAN			|
+						|							|					|	name			|	VARCHAR(50)		|
+						|							|					|	surname			|	VARCHAR(50)		|	
+------------------------+---------------------------+-------------------+-------------------+-------------------+------------
+registration			|	name					|	VARCHAR(50)		|	was_ok			|	BOOLEAN	        |
+						|	surname         		|	VARCHAR(50)     |	code			|	INT	            |
+						|	mail            		|	VARCHAR(50)     |	message			|	TEXT		    |
+						|	password        		|	VARCHAR(100)	|					|					|	
+						|	marketing       		|	BOOLEAN			|					|					|	
+						|	rodo            		|	BOOLEAN			|					|					|	
+						|	regulations     		|	BOOLEAN			|					|					|	
+						|	ip_address_v4			|	VARCHAR(15)		|					|					|	
+------------------------+---------------------------+-------------------+-------------------+-------------------+-------------
+confirm_registration	|	id_client_registration	|	BIGINT			|	was_ok			|	BOOLEAN	        |
+						|							|					|	code			|	INT	            |
+						|                           |           		|	message			|	TEXT		    |
+------------------------+---------------------------+-------------------+-------------------+-------------------+-------------
+create_user				|	id_permission			|	INT				|	was_ok			|	BOOLEAN	        |
+						|	name					|	VARCHAR(50)	    |	code			|	INT	            |
+						|	surname					|	VARCHAR(50)	    |	message			|	TEXT		    |
+						|	mail					|	VARCHAR(50)	    |					|					|
+						|	password				|	VARCHAR(100)	|					|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+-------------
+delete_user				|	id_user					|	BIGINT			|	was_ok			|	BOOLEAN			|	
+						|							|					|	code			|	INT				|	
+						|							|					|	message			|	TEXT			|	
+------------------------+---------------------------+-------------------+-------------------+-------------------+-------------
+modification_user		|	id_user					|	BIGINT			|	was_ok			|	BOOLEAN			|	
+						|	id_permission			|	INT				|	code			|	INT				|	
+						|	name					|	VARCHAR(50)		|   message			|	TEXT			|	
+						|	surname					|	VARCHAR(50)		|					|					|	
+						|	mail					|	VARCHAR(50)		|					|					|
+						|	password				|	VARCHAR(100)	|					|					|	
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+create_offer			|	id_user					|	BIGINT			|
+						|	id_promotion			|	INT				|
+						|	title					|	VARCHAR(100)	|
+						|	description				|	VARCHAR(200)	|
+						|	date_validity_from		|	DATE			|
+						|	date_validity_to		|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_offer		|	id_offer				|	BIGINT			|
+						|	id_promotion			|	INT				|
+						|	title					|   VARCHAR(100)	|
+						|	description				|   VARCHAR(200)	|
+						|	date_validity_from		|   DATE			|
+						|	date_validity_to		|   DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_offer			|	id_offer				|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+confirm_offer			|	id_offer				|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+add_image				|	id_offer				|	BIGINT			|
+						|	image					|	LONGBLOB		|
+						|	description				|	VARCHAR(200)	|
+						|	main					|	BOOLEAN			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_image			|	id_offer_image			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_image		|	id_offer_image			|	BIGINT			|
+						|	description				|	VARCHAR(200)	|
+						|	main					|	BOOLEAN			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+create_reservation		|	id_user					|	BIGINT			|
+						|	id_offer				|	BIGINT 			|
+						|	id_promotion			|	INT				|
+						|	date_from				|	DATE			|
+						|	date_to					|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+confirm_reservation		|	id_reservation			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+delete_reservation		|	id_reservation			|	BIGINT			|
+						|							|					|
+						|							|					|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+modification_reservation|	id_reservation			|	BIGINT			|
+						|	date_from				|	DATE			|
+						|	date_to					|	DATE			|
+------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+
+Do pobierania danych z tabel bazy danych zostaną zastosowane widoki aby webservice nie poruszał się bezpośrednio po tabelach.    
+
+----------------------------+-----------------------+-------------------+-------------------
+Nazwa						|	Nazwa pola			|	Typ pola		|	Opis
+----------------------------+-----------------------+-------------------+-------------------
+get_all_clients				|	id_client			|	BIGINT			|
+							|	name				|	VARCHAR(50)		|
+							|	surname				|	VARCHAR(50)		|
+							|	email				|	VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_all_offers				|	id_offer			|	BIGINT			|
+							|	title				|	VARCHAR(50)		|
+							|	image_main			|	LONGBLOB		|
+							|	best				|	BOOLEAN			|
+							|	promotion			|	VARCHAR(100)	|
+							|	cost				|	DECIMAL(5,2)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_all_reservation			|	id_reservation		|	BIGINT			|
+							|	name				|	VARCHAR(50)		|
+							|	surname				|	VARCHAR(50)		|
+							|	title				|	VARCHAR(50)		|
+							|	data_from			|	DATE			|
+							|	data_to				|	DATE			|
+----------------------------+-----------------------+-------------------+-------------------
+get_offer_to_confirm		|	id_offer			|	BIGINT			|
+							|	title				|	VARCHAR(100)	|
+							|	description			|	VARCHAR(200)	|
+							|	images				|	LONGBLOB		|
+							|	cost				|	DECIMAL(5,2)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_reservation_to_confirm	|	id_client			|	BIGINT			|
+							|	name				|	VARCHAR(100)	|
+							|	surname				|   VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+get_reservation_to_confirm	|	id_reservation		|	BIGINT			|
+							|	name				|	VARCHAR(100)	|
+							|	surname				|	VARCHAR(100)	|
+							|	title				|	VARCHAR(100)	|
+----------------------------+-----------------------+-------------------+-------------------
+
+Funkcje bazodanowe są to już ostatnim interface bazy które na podstawie argumentu pobiorą odpowiednie rekordy.
+----------------------------+-----------------------------------------------+---------------------------------------+------------
+Nazwa 						|			Argumenty wejściowe					|		Argumenty wyjściowe				|	Opis
+							|	nazwa					|	typ				|	nazwa			|	typ		        |
+----------------------------+---------------------------+-------------------+-------------------+-------------------+------------
+get_offers_by_client		|	id_client				|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	description		|	VARCHAR(200)
+							|							|					|	images			|	LONGBLOB
+							|							|					|	promotion		|	VARCHAR(100)
+							|							|					|	best			|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+get_reservation_by_client	|	id_client				|	BIGINT			| 	id_reservation	|	BIGINT
+							|							|					|	name			|	VARCHAR(100)
+							|							|					|	surname			|	VARCHAR(100)
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	confirmation	|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------
+get_reservation_by_id		|	id_reservation			|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	name			|	VARCHAR(100)
+							|							|					|	surname			|	VARCHAR(100)
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	confirmation	|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+----------------------------+---------------------------+-------------------+-------------------+-------------------+--------------					
+get_offer_by_id				|	id_offer				|	BIGINT			|	id_offer		|	BIGINT
+							|							|					|	title			|	VARCHAR(100)
+							|							|					|	description		|	VARCHAR(200)
+							|							|					|	images			|	LONGBLOB
+							|							|					|	promotion		|	VARCHAR(100)
+							|							|					|	best			|	BOOLEAN
+							|							|					|	cost			|	DECIMAL(5,2)
+						
+3.3. Projekt architektury systemu
+	System będzie składał się z trzech warstw: strona WWW, WebService oraz baza danych. Strona WWW po wywołaniu akcji wysyła żądanie z odpowiednimi parametrami do WebService. WebService odbiera paczkę danych i wysyła żądanie do bazy danych. Baza danych zostanie wyposażona w „inatrface” pod postacią procedur/funkcji i widoków. Za ich pomocą zostana obsłużone żądania z WebService. „Inatrface”  po zakończeniu pracy wysyła odpowiedz do WebService. WebService odbiera dane i wstawia w odpowiednie miejsca na stronie WWW. Poniższy rysunek przedstawia warstwy i komunikację między nimi.	
+[Rysunek]
+
+	Diagram klas przedstawia strukturę klas oraz relacji między nimi zachodzące. W odróżnieniu od diagramu obiektów, który pokazuje jedynie egzemplarze (instancje) obiektów i ich zależności istniejące w konkretnym momencie. 
+[Rysunek: diagram_cd]	     
+3.4. Projekt algorytmów wybranych funkcjonalności
+	Diagram sekwencji – przebiegu funkcjonalności rejestracji użytkownika
+[Rysunek: diagram_sd_rejestracja_klienta]
+	Blokowa reprezentacja funkcjonalności rejestracji użytkownika została podzielona na 3 sekcje: Strona WWW, WebService oraz baza danych. Sama funkcjonalność została podzielona na 2 podfunkcjonalnosci: rejesracja nowego klienta (rys.11) oraz potwierdzenie rejestracji nowego klienta przez administratora (rys.12)  
+[Rysunek: diagram_bd_rejestracja_klienta]
+[Rysunek: diagram_bd_potwierdzanie_rejestracji_klienta]
+
+
+
+
+
+4. Implementacja wybranych elementów systemu
+4.1. sssss
+
+5. Testowanie i prezentacja wybranych elementów systemu
+5.1. sssss
+6. Podsumowanie i wnioski
+6.1. sssss
+7. Możliwości rozwoju
+7.1. ssssss
+
+
 
 
 	
